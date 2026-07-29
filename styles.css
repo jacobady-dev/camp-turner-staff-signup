@@ -1,0 +1,526 @@
+:root{
+  --desktop:#ececec;
+  --window:#c0c0c0;
+  --window-light:#ffffff;
+  --window-mid:#dfdfdf;
+  --window-dark:#808080;
+  --window-shadow:#404040;
+  --title:#000080;
+  --title-active:#0000a8;
+  --purple:#7c007c;
+  --purple-dark:#4c004c;
+  --ink:#111;
+  --paper:#fff;
+  --link:#000080;
+  --green:#0a6d17;
+  --red:#990000;
+}
+
+*{box-sizing:border-box}
+html{background:var(--desktop)}
+body{
+  margin:0;
+  min-height:100vh;
+  color:var(--ink);
+  font-family:"MS Sans Serif",Tahoma,Arial,sans-serif;
+  font-size:13px;
+  background:
+    linear-gradient(rgba(255,255,255,.55),rgba(255,255,255,.55)),
+    repeating-linear-gradient(0deg,#efefef 0 2px,#e8e8e8 2px 4px);
+}
+button,input,select{font:inherit}
+
+.scanlines{
+  pointer-events:none;
+  position:fixed;
+  inset:0;
+  z-index:999;
+  opacity:.09;
+  background:repeating-linear-gradient(to bottom,transparent 0 2px,rgba(0,0,0,.18) 3px);
+}
+
+.page{
+  width:min(960px,calc(100% - 26px));
+  margin:18px auto 36px;
+  border:2px solid var(--window-shadow);
+  background:var(--window);
+  box-shadow:
+    inset 1px 1px 0 var(--window-light),
+    inset -1px -1px 0 var(--window-dark),
+    5px 5px 0 rgba(0,0,0,.22);
+}
+
+.topbar{
+  min-height:27px;
+  padding:4px 6px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  color:#fff;
+  font-weight:bold;
+  background:linear-gradient(90deg,var(--title),var(--title-active));
+  border-bottom:2px solid #000;
+  font-size:12px;
+}
+.topbar::before{
+  content:"CT";
+  display:inline-grid;
+  place-items:center;
+  width:18px;height:18px;
+  color:#fff;
+  background:#7c007c;
+  border:1px solid #fff;
+  margin-right:7px;
+  font-size:9px;
+}
+.topbar span:first-child{margin-right:auto}
+
+.marquee{
+  overflow:hidden;
+  white-space:nowrap;
+  color:#111;
+  background:#d6d6d6;
+  border-top:1px solid #fff;
+  border-bottom:2px groove #fff;
+  padding:5px 0;
+  font-size:11px;
+}
+.marquee span{
+  display:inline-block;
+  min-width:100%;
+  padding-left:100%;
+  animation:scroll 20s linear infinite;
+}
+@keyframes scroll{to{transform:translateX(-100%)}}
+
+header{
+  text-align:left;
+  padding:26px 34px 22px;
+  background:#fff;
+  border-bottom:2px inset #eee;
+  position:relative;
+}
+header::after{
+  content:"WELCOME TO SHADY LAKE";
+  position:absolute;
+  right:26px;
+  top:28px;
+  color:#666;
+  font-family:"Courier New",monospace;
+  font-size:12px;
+  letter-spacing:.08em;
+}
+
+.logo{
+  margin:0;
+  color:#111;
+  font-family:"Courier New",monospace;
+  font-weight:900;
+  font-size:clamp(48px,8vw,82px);
+  line-height:.82;
+  letter-spacing:-.08em;
+  text-shadow:none;
+  transform:none;
+}
+
+.tagline{
+  display:inline-block;
+  margin-top:14px;
+  padding:0;
+  color:var(--purple);
+  background:transparent;
+  border:0;
+  font-family:Georgia,"Times New Roman",serif;
+  font-style:italic;
+  font-size:24px;
+  font-weight:bold;
+  text-decoration:underline;
+  transform:none;
+}
+
+.header-icons{
+  margin-top:12px;
+  font-family:"Courier New",monospace;
+  color:#333;
+  letter-spacing:8px;
+}
+
+nav{
+  display:flex;
+  gap:5px;
+  flex-wrap:wrap;
+  padding:7px;
+  background:var(--window);
+  border-top:1px solid #fff;
+  border-bottom:2px groove #fff;
+  justify-content:flex-start;
+}
+nav button,
+button{
+  color:#111;
+  background:var(--window);
+  border:2px outset #fff;
+  padding:6px 12px;
+  box-shadow:none;
+  cursor:pointer;
+  font-weight:normal;
+}
+nav button:active,
+button:active{
+  border-style:inset;
+  transform:none;
+  box-shadow:none;
+}
+nav button:hover,
+button:hover{
+  background:#d6d6d6;
+}
+
+main{
+  padding:14px;
+  background:#f3f3f3;
+}
+.screen{display:none}
+.screen.active{display:block}
+
+.panel{
+  margin:10px 0;
+  border:2px solid var(--window-shadow);
+  background:var(--window);
+  color:var(--ink);
+  box-shadow:
+    inset 1px 1px 0 var(--window-light),
+    inset -1px -1px 0 var(--window-dark);
+}
+
+.panel h2{
+  margin:0;
+  padding:5px 7px;
+  color:#fff;
+  background:linear-gradient(90deg,var(--title),var(--title-active));
+  border-bottom:1px solid #000;
+  font-family:"MS Sans Serif",Tahoma,Arial,sans-serif;
+  text-transform:none;
+  letter-spacing:0;
+  font-size:13px;
+}
+
+.panel-body{
+  padding:18px;
+  line-height:1.45;
+  background:#fff;
+}
+
+.welcome-grid{
+  display:grid;
+  grid-template-columns:1.2fr .8fr;
+  gap:18px;
+}
+
+.welcome-grid p:first-child{
+  font-family:Georgia,"Times New Roman",serif;
+  font-size:18px;
+  color:var(--purple);
+  margin-top:0;
+}
+
+.confirm-box{
+  align-self:start;
+  background:var(--window);
+  border:2px solid var(--window-shadow);
+  box-shadow:
+    inset 1px 1px 0 var(--window-light),
+    inset -1px -1px 0 var(--window-dark);
+}
+
+.confirm-title{
+  color:#fff;
+  background:linear-gradient(90deg,var(--title),var(--title-active));
+  padding:5px 7px;
+  font-weight:bold;
+  font-size:12px;
+}
+
+.confirm-box label{
+  display:block;
+  margin:11px 12px 4px;
+  font-weight:normal;
+}
+.confirm-box input,
+.confirm-box select{
+  width:calc(100% - 24px);
+  margin:0 12px;
+  padding:6px 7px;
+  color:#111;
+  background:#fff;
+  border:2px inset #fff;
+}
+.check-row{
+  display:grid!important;
+  grid-template-columns:auto 1fr;
+  gap:7px;
+  align-items:start;
+}
+.check-row input{
+  width:auto!important;
+  margin:2px 0 0!important;
+}
+.confirm-box button{margin:12px}
+
+.facts{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:10px;
+  margin:8px 0 16px;
+}
+.fact{
+  min-height:84px;
+  padding:10px;
+  color:#111;
+  text-align:left;
+  background:#f5f5f5;
+  border:2px inset #fff;
+}
+.fact strong{
+  display:block;
+  margin-bottom:6px;
+  color:var(--purple);
+  font-family:Georgia,"Times New Roman",serif;
+  font-size:17px;
+  text-decoration:underline;
+}
+
+.warning{
+  margin-top:16px;
+  padding:10px;
+  color:#111;
+  background:#e7e7e7;
+  border:2px inset #fff;
+  font-family:"Courier New",monospace;
+  font-weight:bold;
+  text-align:left;
+}
+
+.identity-bar,
+.confirmation-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:0;
+  margin-bottom:14px;
+  border:2px inset #fff;
+  background:#f5f5f5;
+}
+.identity-bar>div,
+.confirmation-grid>div{
+  padding:9px;
+  border-right:1px solid #aaa;
+  color:#111;
+  text-align:left;
+  background:#f5f5f5;
+}
+.identity-bar>div:last-child,
+.confirmation-grid>div:last-child{border-right:0}
+.identity-bar span,
+.confirmation-grid span{
+  display:block;
+  margin-bottom:3px;
+  color:#666;
+  font-size:10px;
+}
+.identity-bar strong,
+.confirmation-grid strong{
+  display:block;
+  color:#111;
+}
+
+.jobs{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:12px;
+}
+.role-card{
+  position:relative;
+  min-height:160px;
+  padding:12px;
+  color:#111;
+  background:#efefef;
+  border:2px outset #fff;
+  cursor:pointer;
+}
+.role-card:hover:not(.taken){background:#f8f8f8}
+.role-card.selected{
+  outline:2px solid var(--title);
+  background:#fff;
+}
+.role-card.taken{
+  opacity:.55;
+  cursor:not-allowed;
+}
+.role-card h3{
+  margin:6px 0 4px;
+  color:var(--purple);
+  font-family:Georgia,"Times New Roman",serif;
+  font-size:19px;
+  text-transform:none;
+  text-decoration:underline;
+}
+.role-code{
+  display:inline-block;
+  padding:2px 5px;
+  color:#fff;
+  background:var(--title);
+  border:1px solid #000;
+  font-family:"Courier New",monospace;
+  font-size:10px;
+}
+.role-location{
+  font-size:11px;
+  font-weight:bold;
+}
+.role-card p{
+  margin:8px 0;
+  line-height:1.35;
+}
+.role-availability{
+  position:absolute;
+  right:8px;
+  top:8px;
+  padding:2px 5px;
+  color:var(--green);
+  background:#fff;
+  border:1px solid #777;
+  font-size:9px;
+  font-weight:bold;
+}
+.role-card.taken .role-availability{color:var(--red)}
+
+.toolbar{
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+  margin-top:14px;
+}
+button.secondary{
+  background:var(--window);
+  border-color:#fff;
+}
+button:disabled{
+  color:#777;
+  opacity:1;
+  cursor:not-allowed;
+}
+
+.notice{
+  display:none;
+  margin:12px 0 0;
+  padding:8px;
+  color:#111;
+  background:#efefef;
+  border:2px inset #fff;
+  font-family:"Courier New",monospace;
+}
+.notice.show{display:block}
+
+.completion-card{
+  position:relative;
+  padding:20px;
+  background:#fff;
+  border:2px inset #fff;
+}
+.stamp{
+  position:absolute;
+  right:20px;
+  top:18px;
+  padding:7px 10px;
+  color:var(--purple);
+  border:3px double var(--purple);
+  background:#fff;
+  font-family:Georgia,"Times New Roman",serif;
+  font-size:23px;
+  font-weight:bold;
+  text-align:center;
+  transform:rotate(3deg);
+}
+.stamp span{font-size:13px}
+.eyebrow{
+  margin:0;
+  color:#666;
+  font-size:10px;
+  letter-spacing:.08em;
+}
+.completion-card h3{
+  margin:5px 0 18px;
+  color:#111;
+  font-family:"Courier New",monospace;
+  font-size:31px;
+}
+.error-fragment{
+  margin-top:12px;
+  padding:7px;
+  color:#0a6d17;
+  background:#000;
+  border:2px inset #777;
+  font-family:"Courier New",monospace;
+}
+
+.counter{
+  display:inline-block;
+  padding:2px 6px;
+  color:#e22;
+  background:#000;
+  border:2px inset #777;
+  font-family:"Courier New",monospace;
+  letter-spacing:3px;
+}
+
+footer{
+  padding:13px 10px 18px;
+  color:#222;
+  background:#d0d0d0;
+  border-top:2px groove #fff;
+  text-align:center;
+  font-size:11px;
+}
+.phone-warning{color:var(--red)}
+
+dialog{
+  width:min(500px,calc(100% - 24px));
+  padding:0;
+  color:#111;
+  background:var(--window);
+  border:2px solid var(--window-shadow);
+  box-shadow:4px 4px 0 rgba(0,0,0,.35);
+}
+dialog::backdrop{background:rgba(0,0,0,.28)}
+.dialog-head{
+  padding:5px 7px;
+  color:#fff;
+  background:linear-gradient(90deg,var(--title),var(--title-active));
+  font-weight:bold;
+}
+.dialog-body{
+  padding:14px;
+  background:var(--window);
+}
+
+.blink{animation:blink 1s steps(2,end) infinite}
+@keyframes blink{50%{opacity:0}}
+
+.glitch{animation:glitch .14s steps(2,end) 4}
+@keyframes glitch{
+  25%{transform:translate(-2px,1px)}
+  50%{transform:translate(2px,-1px);filter:contrast(1.5)}
+  75%{transform:translate(-1px,0)}
+}
+
+@media(max-width:720px){
+  .welcome-grid,.jobs,.facts,.identity-bar,.confirmation-grid{grid-template-columns:1fr}
+  .page{width:100%;margin:0;border-left:0;border-right:0}
+  header{padding:20px}
+  header::after{display:none}
+  .logo{font-size:50px}
+  .tagline{font-size:20px}
+  main{padding:8px}
+  .stamp{position:static;display:inline-block;margin-bottom:12px}
+}
