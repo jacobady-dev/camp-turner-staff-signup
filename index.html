@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Camp Turner Summer Staff '85</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="scanlines"></div>
+
+<div class="page" id="page">
+  <div class="topbar">
+    <span>CAMP TURNER ONLINE INFORMATION SUPERHIGHWAY</span>
+    <span>BEST VIEWED AT 800 × 600</span>
+  </div>
+
+  <div class="marquee">
+    <span>★ NOW ACCEPTING SUMMER STAFF FOR 1985 ★ FREE ROOM & BOARD ★ NO EXPERIENCE NECESSARY ★ SHADY LAKE AWAITS! ★</span>
+  </div>
+
+  <header>
+    <h1 class="logo">CAMP TURNER</h1>
+    <div class="tagline">“Building memories that last a lifetime!”</div>
+    <div class="header-icons">🌲 ☀️ 🚌 🏕️ 🚣 🌲</div>
+  </header>
+
+  <nav>
+    <button data-nav="confirm">HOME</button>
+    <button data-nav="about">ABOUT CAMP</button>
+    <button data-nav="volunteer">VOLUNTEER!</button>
+    <button data-nav="confirmation">MY SIGN-UP</button>
+  </nav>
+
+  <main>
+    <section class="screen active" id="screen-confirm">
+      <section class="panel">
+        <h2>Welcome, Future Counselor!</h2>
+        <div class="panel-body welcome-grid">
+          <div>
+            <p><b>Congratulations!</b> You are one step closer to the summer of your life at Camp Turner, a rustic mountain retreat beside beautiful Shady Lake in North Carolina.</p>
+            <p>Our newly reopened camp needs a bright, energetic staff to help prepare the grounds before campers arrive. You will travel by official Camp Turner school bus, meet Camp Director Silas Bennett, and spend your first day restoring our cabins and activity areas.</p>
+            <p><b>No telephones in your pocket. No distractions. Just fresh air, friendship, and responsibility!</b></p>
+          </div>
+
+          <form class="confirm-box" id="confirm-form">
+            <div class="confirm-title">STAFF ATTENDANCE CONFIRMATION</div>
+
+            <label for="player-name">Your Name</label>
+            <input id="player-name" maxlength="40" required placeholder="Enter player name">
+
+            <label for="attendance">Will you be attending?</label>
+            <select id="attendance" required>
+              <option value="">Choose one...</option>
+              <option value="confirmed">Yes, I will attend</option>
+              <option value="declined">No, I cannot attend</option>
+            </select>
+
+            <label class="check-row">
+              <input type="checkbox" id="acknowledge" required>
+              <span>I understand that staff positions are limited.</span>
+            </label>
+
+            <button type="submit">CONFIRM ATTENDANCE</button>
+            <div class="notice" id="confirm-notice"></div>
+          </form>
+        </div>
+      </section>
+    </section>
+
+    <section class="screen" id="screen-about">
+      <section class="panel">
+        <h2>Why Camp Turner?</h2>
+        <div class="panel-body">
+          <div class="facts">
+            <div class="fact"><strong>SHADY LAKE</strong>Calm water, mountain views, boating and swimming!</div>
+            <div class="fact"><strong>4 CABINS</strong>Beech, Birch, Azalea and Holly.</div>
+            <div class="fact"><strong>REMOTE!</strong>Far from town, traffic, television and everyday worries.</div>
+          </div>
+
+          <p>Camp Turner sits in a quiet hollow between two mountain peaks. Old log buildings surround a central clearing, with paths leading to the lake, dock, dining hall and wooded activity areas.</p>
+          <p>Staff members arrive several days before the children to clean, repair and stock the camp. Pick the assignment that best matches your talents. Every volunteer is important!</p>
+
+          <div class="warning">
+            PLEASE IGNORE UNAUTHORIZED STORIES ABOUT “CAMP TERROR.” LOCAL FOLKLORE IS NOT PART OF THE OFFICIAL ORIENTATION PROGRAM.
+          </div>
+
+          <div class="toolbar">
+            <button class="secondary" data-nav="confirm">BACK</button>
+            <button data-nav="volunteer">VIEW STAFF ASSIGNMENTS</button>
+          </div>
+        </div>
+      </section>
+    </section>
+
+    <section class="screen" id="screen-volunteer">
+      <section class="panel">
+        <h2><span class="blink">★</span> Volunteer Assignment Board <span class="blink">★</span></h2>
+        <div class="panel-body">
+          <div class="identity-bar">
+            <div><span>COUNSELOR</span><strong id="identity-name">UNCONFIRMED</strong></div>
+            <div><span>STATUS</span><strong>ATTENDANCE CONFIRMED</strong></div>
+            <div><span>ROSTER</span><strong id="database-mode">CONNECTING...</strong></div>
+          </div>
+
+          <p>Choose one assignment. Once claimed, the shared roster reserves it under your name for everyone viewing the site.</p>
+
+          <div class="jobs" id="role-grid"></div>
+
+          <div class="toolbar">
+            <button class="secondary" data-nav="about">BACK</button>
+            <button id="confirm-role" disabled>RESERVE ASSIGNMENT</button>
+          </div>
+
+          <div class="notice" id="role-notice"></div>
+        </div>
+      </section>
+    </section>
+
+    <section class="screen" id="screen-confirmation">
+      <section class="panel">
+        <h2>Your Camp Turner Confirmation</h2>
+        <div class="panel-body">
+          <div class="completion-card">
+            <div class="stamp">ACCEPTED<br><span>SUMMER ’85</span></div>
+
+            <p class="eyebrow">CAMP TURNER SUMMER STAFF</p>
+            <h3 id="complete-name">COUNSELOR NAME</h3>
+
+            <div class="confirmation-grid">
+              <div><span>ASSIGNMENT</span><strong id="complete-role">PENDING</strong></div>
+              <div><span>LOCATION</span><strong id="complete-location">PENDING</strong></div>
+              <div><span>STATUS</span><strong>RESERVED</strong></div>
+            </div>
+
+            <p>Your position has been added to the Camp Turner roster. Report to Camp Director Silas Bennett beside the bus upon arrival.</p>
+
+            <div class="error-fragment" id="error-fragment">RECORD VERIFIED // NO PRIOR INCIDENTS FOUND</div>
+          </div>
+
+          <div class="toolbar">
+            <button class="secondary" id="copy-confirmation">COPY CONFIRMATION</button>
+            <button id="change-assignment">CHANGE ASSIGNMENT</button>
+          </div>
+
+          <div class="notice" id="complete-notice"></div>
+        </div>
+      </section>
+    </section>
+  </main>
+
+  <footer>
+    <div>YOU ARE VISITOR NUMBER <span class="counter" id="counter">001985</span></div>
+    <p>© 1985 CAMP TURNER RECREATIONAL SERVICES • SHADY LAKE, NORTH CAROLINA</p>
+    <p>Questions? Please telephone the dining hall during normal business hours. <span class="phone-warning">Line availability not guaranteed.</span></p>
+  </footer>
+</div>
+
+<dialog id="confirm-dialog">
+  <div class="dialog-head">Confirm Assignment</div>
+  <div class="dialog-body">
+    <p id="dialog-copy"></p>
+    <div class="toolbar">
+      <button class="secondary" id="cancel-dialog">CANCEL</button>
+      <button id="approve-dialog">RESERVE POSITION</button>
+    </div>
+  </div>
+</dialog>
+
+<script type="module" src="app.js"></script>
+</body>
+</html>
