@@ -1,11 +1,13 @@
 /*
-  CAMP TURNER SHARED ROSTER CONFIGURATION
+  CAMP TURNER FIREBASE CONFIGURATION
 
-  1. Create a Firebase project.
-  2. Add a Web App.
-  3. Enable Firestore Database.
-  4. Paste the Firebase configuration object below.
-  5. Change useSharedDatabase to true.
+  Setup:
+  1. Create a Firebase project and add a Web App.
+  2. Create a Firestore database.
+  3. Enable Anonymous sign-in under Authentication > Sign-in method.
+  4. Paste the Web App configuration below.
+  5. Publish the firestore.rules file included in this repository.
+  6. Change useSharedDatabase to true.
 */
 
 export const useSharedDatabase = false;
