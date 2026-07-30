@@ -33,7 +33,7 @@
       roar.pause();
       roar.currentTime = 0;
       roar.volume = 1;
-      roar.playbackRate = 0.92;
+      roar.playbackRate = 1;
       roar.play().catch(() => {
         console.warn("Corruption roar file is missing or could not be played.");
       });
@@ -56,17 +56,22 @@
       main.textContent = "TAPE 13 // UNAUTHORIZED PLAYBACK";
     });
 
-    later(650, () => {
+    later(2400, () => {
       small.textContent = "TRANSPORT RECORD CORRUPTED";
       main.textContent = "DO NOT LEAVE THE BUS";
     });
 
-    later(1200, () => {
+    later(4800, () => {
       small.textContent = "COUNSELOR STATUS: MISSING";
       main.textContent = "HE IS STILL HUNGRY";
     });
 
-    later(1780, () => {
+    later(7200, () => {
+      small.textContent = "CABIN ROSTER RECOVERED";
+      main.textContent = "IT KNOWS YOUR NAME";
+    });
+
+    later(9400, () => {
       small.textContent = "YOU HAVE BEEN EXPECTED";
       main.textContent = "YOU’RE GOING TO DIE";
     });
