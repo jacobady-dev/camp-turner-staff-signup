@@ -10,7 +10,7 @@
 export const useSharedDatabase = true;
 
 export const firebaseConfig = {
-  apiKey: "AIzaSyCPHdaGE3UTGc_FnFT5-4SyE1PKH0eLWU4",
+  apiKey: "AIzaSyCPHdAGE3UTGc_FnFT5-4SyE1RKH0eLWU4",
   authDomain: "camp-turner-staff-signup.firebaseapp.com",
   projectId: "camp-turner-staff-signup",
   storageBucket: "camp-turner-staff-signup.firebasestorage.app",
