@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Camp Turner Summer Staff '85</title>
 <link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="horror.css">
 </head>
 <body>
 <div class="scanlines"></div>
@@ -30,6 +31,7 @@
     <button data-nav="about">ABOUT CAMP</button>
     <button data-nav="volunteer">VOLUNTEER!</button>
     <button data-nav="confirmation">MY SIGN-UP</button>
+    <button id="music-toggle" class="music-toggle" type="button" aria-pressed="false">▶ CAMP RADIO</button>
   </nav>
 
   <main>
@@ -166,6 +168,19 @@
     </div>
   </div>
 </dialog>
+
+<audio id="camp-theme" src="assets/camp-theme.mp3" preload="auto" loop></audio>
+
+<div class="death-overlay" id="death-overlay" aria-hidden="true">
+  <div class="vhs-noise"></div>
+  <div class="tracking tracking-one"></div>
+  <div class="tracking tracking-two"></div>
+  <div class="death-message">
+    <div class="death-small" id="death-small">CAMP TURNER WELCOMES YOU</div>
+    <div class="death-main" id="death-main">YOUR POSITION IS CONFIRMED</div>
+    <div class="death-code">CT-85 // RECORDING ERROR // DO NOT ADJUST YOUR SET</div>
+  </div>
+</div>
 
 <script type="module" src="app.js"></script>
 </body>
