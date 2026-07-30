@@ -1,22 +1,20 @@
 /*
   CAMP TURNER FIREBASE CONFIGURATION
 
-  Setup:
-  1. Create a Firebase project and add a Web App.
-  2. Create a Firestore database.
-  3. Enable Anonymous sign-in under Authentication > Sign-in method.
-  4. Paste the Web App configuration below.
-  5. Publish the firestore.rules file included in this repository.
-  6. Change useSharedDatabase to true.
+  Firebase services required:
+  1. Firestore Database
+  2. Anonymous Authentication
+  3. The firestore.rules file published in Firebase
 */
 
-export const useSharedDatabase = false;
+export const useSharedDatabase = true;
 
 export const firebaseConfig = {
-  apiKey: "PASTE_YOUR_API_KEY",
-  authDomain: "PASTE_YOUR_PROJECT.firebaseapp.com",
-  projectId: "PASTE_YOUR_PROJECT_ID",
-  storageBucket: "PASTE_YOUR_PROJECT.firebasestorage.app",
-  messagingSenderId: "PASTE_YOUR_SENDER_ID",
-  appId: "PASTE_YOUR_APP_ID"
+  apiKey: "AIzaSyCPHdaGE3UTGc_FnFT5-4SyE1PKH0eLWU4",
+  authDomain: "camp-turner-staff-signup.firebaseapp.com",
+  projectId: "camp-turner-staff-signup",
+  storageBucket: "camp-turner-staff-signup.firebasestorage.app",
+  messagingSenderId: "1041066629862",
+  appId: "1:1041066629862:web:74b485ce7e197653d23927",
+  measurementId: "G-4QLP225Z56"
 };
