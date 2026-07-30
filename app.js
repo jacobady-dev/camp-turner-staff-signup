@@ -17,6 +17,19 @@ let selectedRole = null;
 let roster = {};
 let db = null;
 let useFirebase = false;
+let confirmationScarePlayed = false;
+
+const campTheme = document.getElementById("camp-theme");
+const musicToggle = document.getElementById("music-toggle");
+const deathOverlay = document.getElementById("death-overlay");
+const deathSmall = document.getElementById("death-small");
+const deathMain = document.getElementById("death-main");
+
+if (campTheme) {
+  campTheme.volume = 0.28;
+  campTheme.preservesPitch = false;
+  campTheme.webkitPreservesPitch = false;
+}
 
 const screens = {
   confirm: document.getElementById("screen-confirm"),
@@ -37,7 +50,26 @@ document.querySelectorAll("[data-nav]").forEach(button => {
   button.addEventListener("click", () => showScreen(button.dataset.nav));
 });
 
-document.getElementById("confirm-form").addEventListener("submit", event => {
+musicToggle?.addEventListener("click", async () => {
+  if (!campTheme) return;
+
+  if (campTheme.paused) {
+    try {
+      campTheme.playbackRate = 1;
+      await campTheme.play();
+      musicToggle.textContent = "■ STOP CAMP RADIO";
+      musicToggle.setAttribute("aria-pressed", "true");
+    } catch {
+      musicToggle.textContent = "AUDIO FILE NOT FOUND";
+    }
+  } else {
+    campTheme.pause();
+    musicToggle.textContent = "▶ CAMP RADIO";
+    musicToggle.setAttribute("aria-pressed", "false");
+  }
+});
+
+document.getElementById("confirm-form").addEventListener("submit", async event => {
   event.preventDefault();
   const name = document.getElementById("player-name").value.trim();
   const attendance = document.getElementById("attendance").value;
@@ -56,6 +88,18 @@ document.getElementById("confirm-form").addEventListener("submit", event => {
   currentPlayer = { name, confirmedAt:new Date().toISOString() };
   sessionStorage.setItem(playerKey, JSON.stringify(currentPlayer));
   document.getElementById("identity-name").textContent = name.toUpperCase();
+
+  if (campTheme?.paused) {
+    try {
+      campTheme.playbackRate = 1;
+      await campTheme.play();
+      musicToggle.textContent = "■ STOP CAMP RADIO";
+      musicToggle.setAttribute("aria-pressed", "true");
+    } catch {
+      // The site still works if the music file has not been uploaded yet.
+    }
+  }
+
   showScreen("about");
 });
 
@@ -127,11 +171,69 @@ document.getElementById("approve-dialog").addEventListener("click", async () => 
     document.getElementById("page").classList.add("glitch");
     setTimeout(() => document.getElementById("page").classList.remove("glitch"), 900);
     showScreen("confirmation");
+    playConfirmationScare();
   } catch (error) {
     flash("role-notice", error.message || "THAT POSITION COULD NOT BE RESERVED.");
     await refreshRoster();
   }
 });
+
+function playConfirmationScare(){
+  if (confirmationScarePlayed || !deathOverlay) return;
+  confirmationScarePlayed = true;
+
+  if (campTheme && !campTheme.paused) {
+    rampPlaybackRate(campTheme, 1, 0.52, 1800);
+    campTheme.volume = 0.38;
+  }
+
+  deathSmall.textContent = "CAMP TURNER WELCOMES YOU";
+  deathMain.textContent = "YOUR POSITION IS CONFIRMED";
+  deathOverlay.classList.add("active");
+  deathOverlay.setAttribute("aria-hidden", "false");
+
+  setTimeout(() => {
+    deathOverlay.classList.add("corrupted");
+    deathSmall.textContent = "YOU HAVE BEEN EXPECTED";
+    deathMain.textContent = "YOU’RE GOING TO DIE";
+    speakWarning();
+  }, 2200);
+
+  setTimeout(() => {
+    deathOverlay.classList.remove("active", "corrupted");
+    deathOverlay.setAttribute("aria-hidden", "true");
+    document.getElementById("error-fragment").textContent = "RECORD VERIFIED // SURVIVAL STATUS: PENDING";
+
+    if (campTheme && !campTheme.paused) {
+      campTheme.volume = 0.28;
+      rampPlaybackRate(campTheme, campTheme.playbackRate, 1, 1300);
+    }
+  }, 4700);
+}
+
+function rampPlaybackRate(audio, from, to, duration){
+  const start = performance.now();
+  audio.playbackRate = from;
+
+  function step(now){
+    const progress = Math.min((now - start) / duration, 1);
+    audio.playbackRate = from + (to - from) * progress;
+    if (progress < 1) requestAnimationFrame(step);
+  }
+
+  requestAnimationFrame(step);
+}
+
+function speakWarning(){
+  if (!("speechSynthesis" in window)) return;
+
+  window.speechSynthesis.cancel();
+  const warning = new SpeechSynthesisUtterance("You are going to die.");
+  warning.rate = 0.55;
+  warning.pitch = 0.35;
+  warning.volume = 0.8;
+  window.speechSynthesis.speak(warning);
+}
 
 function populateConfirmation(role){
   document.getElementById("complete-name").textContent = currentPlayer.name.toUpperCase();
@@ -165,6 +267,7 @@ document.getElementById("change-assignment").addEventListener("click", async () 
 
     delete currentPlayer.roleId;
     sessionStorage.setItem(playerKey, JSON.stringify(currentPlayer));
+    confirmationScarePlayed = false;
     await refreshRoster();
     showScreen("volunteer");
   } catch {
