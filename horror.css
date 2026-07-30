@@ -1,0 +1,153 @@
+.music-toggle{
+  margin-left:auto;
+  font-family:"Courier New",monospace;
+  font-weight:bold;
+}
+
+.death-overlay{
+  position:fixed;
+  inset:0;
+  z-index:5000;
+  display:none;
+  place-items:center;
+  overflow:hidden;
+  background:#050505;
+  color:#f4f4f4;
+  font-family:"Courier New",monospace;
+  text-align:center;
+  isolation:isolate;
+}
+
+.death-overlay.active{
+  display:grid;
+  animation:vhsPowerOn .22s steps(2,end), screenJitter .16s steps(2,end) infinite;
+}
+
+.death-overlay::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  z-index:-1;
+  background:
+    radial-gradient(circle at center,rgba(255,255,255,.08),transparent 45%),
+    repeating-linear-gradient(to bottom,rgba(255,255,255,.045) 0 1px,transparent 2px 4px);
+  mix-blend-mode:screen;
+}
+
+.death-overlay::after{
+  content:"PLAYBACK  SP";
+  position:absolute;
+  top:18px;
+  left:20px;
+  color:#fff;
+  font-size:clamp(12px,2vw,18px);
+  letter-spacing:.12em;
+  text-shadow:2px 0 #900,-2px 0 #006b8f;
+}
+
+.vhs-noise{
+  position:absolute;
+  inset:-60%;
+  opacity:.22;
+  background-image:
+    repeating-radial-gradient(circle at 30% 40%,#fff 0 1px,transparent 1px 3px),
+    repeating-radial-gradient(circle at 70% 60%,#777 0 1px,transparent 1px 4px);
+  background-size:7px 7px,11px 11px;
+  animation:noiseShift .12s steps(2,end) infinite;
+}
+
+.tracking{
+  position:absolute;
+  left:-10%;
+  width:120%;
+  height:8px;
+  opacity:.55;
+  background:linear-gradient(90deg,transparent,#fff 20%,#777 55%,transparent);
+  filter:blur(2px);
+}
+
+.tracking-one{top:28%;animation:trackingRoll 2.1s linear infinite}
+.tracking-two{top:74%;animation:trackingRoll 1.35s linear reverse infinite}
+
+.death-message{
+  position:relative;
+  width:min(900px,92vw);
+  padding:34px 22px;
+  text-transform:uppercase;
+  text-shadow:4px 0 #8b0000,-4px 0 #004b62;
+}
+
+.death-small{
+  margin-bottom:18px;
+  font-size:clamp(14px,2.3vw,26px);
+  letter-spacing:.32em;
+}
+
+.death-main{
+  font-size:clamp(34px,8vw,92px);
+  font-weight:900;
+  line-height:.95;
+  letter-spacing:.04em;
+  animation:wordFlicker .7s steps(2,end) infinite;
+}
+
+.death-code{
+  margin-top:26px;
+  font-size:clamp(10px,1.8vw,16px);
+  letter-spacing:.12em;
+  opacity:.72;
+}
+
+.death-overlay.corrupted{
+  background:#160000;
+  color:#fff;
+  animation:screenJitter .08s steps(2,end) infinite, redPulse .45s steps(2,end) infinite;
+}
+
+.death-overlay.corrupted .death-main{
+  color:#ffefef;
+  transform:scaleY(1.15);
+  text-shadow:7px 0 #ff0000,-7px 0 #001cff,0 0 18px #ff0000;
+}
+
+.death-overlay.corrupted::after{content:"REC  00:13:13"}
+
+@keyframes vhsPowerOn{
+  0%{transform:scaleY(.01);filter:brightness(4)}
+  70%{transform:scaleY(.08);filter:brightness(2)}
+  100%{transform:scaleY(1);filter:none}
+}
+
+@keyframes screenJitter{
+  0%{transform:translate(0,0)}
+  25%{transform:translate(-2px,1px)}
+  50%{transform:translate(2px,-1px)}
+  75%{transform:translate(-1px,2px)}
+}
+
+@keyframes wordFlicker{
+  0%,72%,100%{opacity:1}
+  74%{opacity:.2}
+  78%{opacity:.9}
+  83%{opacity:.35}
+}
+
+@keyframes noiseShift{
+  from{transform:translate(0,0)}
+  to{transform:translate(4%,3%)}
+}
+
+@keyframes trackingRoll{
+  from{transform:translateY(-40vh)}
+  to{transform:translateY(80vh)}
+}
+
+@keyframes redPulse{
+  50%{filter:contrast(1.8) brightness(.7)}
+}
+
+@media(max-width:720px){
+  .music-toggle{margin-left:0}
+  .death-message{padding:24px 14px}
+  .death-small{letter-spacing:.16em}
+}
