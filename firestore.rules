@@ -22,5 +22,32 @@ service cloud.firestore {
 
       allow update: if false;
     }
+
+    match /campTurnerPlayers/{playerUid} {
+      allow read: if request.auth != null
+        && request.auth.uid == playerUid;
+
+      allow create, update: if request.auth != null
+        && request.auth.uid == playerUid
+        && request.resource.data.keys().hasOnly([
+          'playerName',
+          'attendanceStatus',
+          'anonymousUid',
+          'confirmedAt',
+          'updatedAt',
+          'roleId',
+          'roleTitle',
+          'claimedAt',
+          'scareViewedAt',
+          'roleReleasedAt'
+        ])
+        && request.resource.data.playerName is string
+        && request.resource.data.playerName.size() > 0
+        && request.resource.data.playerName.size() <= 40
+        && request.resource.data.attendanceStatus == 'confirmed'
+        && request.resource.data.anonymousUid == request.auth.uid;
+
+      allow delete: if false;
+    }
   }
 }
