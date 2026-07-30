@@ -1,19 +1,26 @@
 rules_version = '2';
-
 service cloud.firestore {
   match /databases/{database}/documents {
-    match /campTurnerAssignments/{roleId} {
+    match /campTurnerRoles/{roleId} {
       allow read: if true;
 
-      // Simple one-shot setup:
-      // Anyone with the private invitation URL can create or update a role.
-      // Existing roles cannot be overwritten by a different counselor name.
-      allow create: if request.resource.data.playerName is string
-                    && request.resource.data.playerName.size() > 0;
+      allow create: if request.auth != null
+        && request.resource.data.keys().hasOnly([
+          'name',
+          'roleTitle',
+          'claimedByUid',
+          'claimedAt'
+        ])
+        && request.resource.data.name is string
+        && request.resource.data.name.size() > 0
+        && request.resource.data.name.size() <= 40
+        && request.resource.data.roleTitle is string
+        && request.resource.data.claimedByUid == request.auth.uid;
 
-      allow update: if resource.data.playerName == request.resource.data.playerName;
+      allow delete: if request.auth != null
+        && resource.data.claimedByUid == request.auth.uid;
 
-      allow delete: if true;
+      allow update: if false;
     }
   }
 }
