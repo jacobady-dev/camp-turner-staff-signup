@@ -71,6 +71,7 @@
 
 .death-message{
   position:relative;
+  z-index:8;
   width:min(900px,92vw);
   padding:34px 22px;
   text-transform:uppercase;
@@ -98,16 +99,118 @@
   opacity:.72;
 }
 
+.blood-sheet{
+  position:absolute;
+  z-index:3;
+  top:-18vh;
+  width:48vw;
+  height:72vh;
+  opacity:0;
+  background:
+    radial-gradient(ellipse at 20% 22%,#7a0000 0 13%,transparent 14%),
+    radial-gradient(ellipse at 58% 10%,#a40000 0 11%,transparent 12%),
+    radial-gradient(ellipse at 84% 28%,#5c0000 0 16%,transparent 17%),
+    linear-gradient(to bottom,#8b0000 0 36%,#3b0000 58%,transparent 100%);
+  filter:contrast(1.35) saturate(1.4) drop-shadow(0 12px 14px #220000);
+  transform-origin:top;
+}
+
+.blood-sheet-left{
+  left:-7vw;
+  clip-path:polygon(0 0,100% 0,92% 28%,100% 42%,78% 55%,84% 74%,60% 100%,42% 76%,18% 92%,0 72%);
+}
+
+.blood-sheet-right{
+  right:-7vw;
+  clip-path:polygon(0 0,100% 0,100% 76%,82% 90%,58% 72%,40% 100%,18% 70%,24% 48%,4% 35%,12% 18%);
+}
+
+.death-overlay.corrupted .blood-sheet{
+  animation:bloodCurtain 1.15s cubic-bezier(.18,.82,.32,1) forwards;
+}
+
+.blood-splatter{
+  position:absolute;
+  z-index:5;
+  width:220px;
+  aspect-ratio:1;
+  opacity:0;
+  border-radius:50%;
+  background:
+    radial-gradient(circle at 50% 50%,#8f0000 0 18%,transparent 19%),
+    radial-gradient(circle at 26% 34%,#b60000 0 7%,transparent 8%),
+    radial-gradient(circle at 72% 25%,#6b0000 0 9%,transparent 10%),
+    radial-gradient(circle at 78% 68%,#a00000 0 6%,transparent 7%),
+    radial-gradient(circle at 31% 76%,#7a0000 0 5%,transparent 6%);
+  filter:blur(.3px) drop-shadow(0 0 8px #230000);
+  transform:scale(.1) rotate(-18deg);
+}
+
+.blood-splatter-one{left:7vw;bottom:8vh}
+.blood-splatter-two{right:8vw;top:18vh;transform:scale(.1) rotate(22deg)}
+
+.death-overlay.corrupted .blood-splatter{
+  animation:bloodBurst .42s steps(3,end) .18s forwards;
+}
+
+.blood-drip{
+  position:absolute;
+  z-index:6;
+  top:-8vh;
+  width:22px;
+  height:52vh;
+  opacity:0;
+  border-radius:0 0 50% 50%;
+  background:linear-gradient(to bottom,#a50000 0,#710000 70%,#360000 100%);
+  box-shadow:0 0 12px rgba(120,0,0,.75);
+  transform:translateY(-45vh);
+}
+
+.blood-drip::after{
+  content:"";
+  position:absolute;
+  left:50%;
+  bottom:-34px;
+  width:44px;
+  height:44px;
+  border-radius:52% 48% 58% 42%;
+  background:#640000;
+  transform:translateX(-50%) rotate(45deg);
+}
+
+.blood-drip-one{left:18vw;height:58vh}
+.blood-drip-two{left:51vw;width:14px;height:42vh}
+.blood-drip-three{right:16vw;width:28px;height:64vh}
+
+.death-overlay.corrupted .blood-drip{
+  animation:bloodRun 1.35s cubic-bezier(.15,.78,.27,1) .05s forwards;
+}
+
 .death-overlay.corrupted{
   background:#160000;
   color:#fff;
   animation:screenJitter .08s steps(2,end) infinite, redPulse .45s steps(2,end) infinite;
 }
 
+.death-overlay.corrupted .death-message{
+  background:radial-gradient(ellipse at center,rgba(0,0,0,.2),rgba(0,0,0,.72) 72%);
+}
+
 .death-overlay.corrupted .death-main{
   color:#ffefef;
   transform:scaleY(1.15);
-  text-shadow:7px 0 #ff0000,-7px 0 #001cff,0 0 18px #ff0000;
+  text-shadow:7px 0 #ff0000,-7px 0 #001cff,0 0 18px #ff0000,0 8px 0 #3f0000;
+}
+
+.death-overlay.corrupted .death-main::after{
+  content:"";
+  display:block;
+  width:72%;
+  height:18px;
+  margin:12px auto 0;
+  background:linear-gradient(90deg,transparent,#8d0000 8% 92%,transparent);
+  filter:blur(3px);
+  animation:bloodSmear .65s steps(3,end) infinite;
 }
 
 .death-overlay.corrupted::after{content:"REC  00:13:13"}
@@ -146,8 +249,33 @@
   50%{filter:contrast(1.8) brightness(.7)}
 }
 
+@keyframes bloodCurtain{
+  0%{opacity:0;transform:translateY(-34vh) scaleY(.4)}
+  28%{opacity:.92}
+  100%{opacity:.92;transform:translateY(0) scaleY(1)}
+}
+
+@keyframes bloodBurst{
+  0%{opacity:0;transform:scale(.1) rotate(-18deg)}
+  55%{opacity:1;transform:scale(1.18) rotate(4deg)}
+  100%{opacity:.92;transform:scale(1) rotate(0)}
+}
+
+@keyframes bloodRun{
+  0%{opacity:0;transform:translateY(-45vh)}
+  12%{opacity:1}
+  100%{opacity:.95;transform:translateY(0)}
+}
+
+@keyframes bloodSmear{
+  0%,100%{transform:translateX(-3%) scaleX(.92);opacity:.65}
+  50%{transform:translateX(4%) scaleX(1.08);opacity:1}
+}
+
 @media(max-width:720px){
   .music-toggle{margin-left:0}
   .death-message{padding:24px 14px}
   .death-small{letter-spacing:.16em}
+  .blood-sheet{width:68vw}
+  .blood-splatter{width:150px}
 }
