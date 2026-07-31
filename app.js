@@ -82,7 +82,11 @@ document.getElementById("confirm-form").addEventListener("submit", async event =
   if (!name || !attendance || !acknowledge) return flash("confirm-notice", "PLEASE COMPLETE EVERY FIELD.");
   if (attendance !== "confirmed") return flash("confirm-notice", "ATTENDANCE DECLINED. YOUR RECORD HAS NOT BEEN ADDED.");
 
-  currentPlayer = { ...currentPlayer, name, confirmedAt:new Date().toISOString() };
+  const existingRoleId = currentPlayer?.name === name ? currentPlayer?.roleId : null;
+  currentPlayer = { name, confirmedAt:new Date().toISOString() };
+  if (existingRoleId) currentPlayer.roleId = existingRoleId;
+  selectedRole = null;
+  document.getElementById("confirm-role").disabled = true;
   sessionStorage.setItem(playerKey, JSON.stringify(currentPlayer));
   document.getElementById("identity-name").textContent = name.toUpperCase();
 
